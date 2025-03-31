@@ -51,6 +51,7 @@ public class RentalSystem {
 		this.vehicles = new ArrayList<>();
 		this.customers = new ArrayList<>();
 		this.rentalHistory = new RentalHistory();
+		loadData();
 	}
 	
 	public static RentalSystem getInstance() {
@@ -95,9 +96,9 @@ public class RentalSystem {
     	System.out.println("|     Type         |\tPlate\t|\tMake\t|\tModel\t|\tYear\t|");
     	System.out.println("---------------------------------------------------------------------------------");
     	 
-        for (Vehicle v : vehicles) {
-            if (!onlyAvailable || v.getStatus() == Vehicle.VehicleStatus.AVAILABLE) {
-                System.out.println("|     " + (v instanceof Car ? "Car          " : "Motorcycle   ") + "|\t" + v.getLicensePlate() + "\t|\t" + v.getMake() + "\t|\t" + v.getModel() + "\t|\t" + v.getYear() + "\t|\t");
+        for (Vehicle v_ : vehicles) {
+            if (!onlyAvailable || v_.getStatus() == Vehicle.VehicleStatus.AVAILABLE) {
+                System.out.println("|     " + (v_ instanceof Car ? "Car          " : "Motorcycle   ") + "|\t" + v_.getLicensePlate() + "\t|\t" + v_.getMake() + "\t|\t" + v_.getModel() + "\t|\t" + v_.getYear() + "\t|\t");
             }
         }
         System.out.println();
@@ -132,9 +133,6 @@ public class RentalSystem {
     }
     
     public boolean saveVehicle(Vehicle vehicle) {
-    	//Reset existing data
-    	loadData();
-    	
     	//Check for duplicate using license plate
     	for(Vehicle v_: vehicles) {
     		if (v_.getLicensePlate().equalsIgnoreCase(vehicle.getLicensePlate())) {
@@ -148,6 +146,7 @@ public class RentalSystem {
             FileWriter vehicleWriter = new FileWriter(vehicles, true);
             vehicleWriter.append(vehicle.getInfo() + "\n");
             vehicleWriter.close();
+            this.vehicles.add(vehicle);
     	} catch (Exception e) {
     		System.out.println("Error writing to file!");
     	}
@@ -155,9 +154,6 @@ public class RentalSystem {
     }
     
     public boolean saveCustomer(Customer customer) {
-    	//Reset existing data
-    	loadData();
-    	
     	//Check for duplicate using Customer ID
     	for(Customer c_: customers) {
     		if (c_.getCustomerName().equals(customer.getCustomerName())) {
@@ -171,6 +167,7 @@ public class RentalSystem {
             FileWriter customerWriter = new FileWriter(customers, true);
             customerWriter.append(customer.toString() + "\n");
             customerWriter.close();
+            this.customers.add(customer);
     	} catch (Exception e) {
     		System.out.println("Error writing to file!");
     	}
@@ -184,6 +181,7 @@ public class RentalSystem {
             FileWriter rentalRecordWriter = new FileWriter(rentalRecords, true);
             rentalRecordWriter.append(rentalRecord.toString() + "\n");
             rentalRecordWriter.close();
+            this.rentalHistory.addRecord(rentalRecord);
     	} catch (Exception e) {
     		System.out.println("Error writing to file!");
     	}
