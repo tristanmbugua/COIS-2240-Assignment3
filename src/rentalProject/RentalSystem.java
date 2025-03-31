@@ -61,12 +61,12 @@ public class RentalSystem {
 		}
 	}
 	
-    public void addVehicle(Vehicle vehicle) {
-        saveVehicle(vehicle);
+    public boolean addVehicle(Vehicle vehicle) {
+        return saveVehicle(vehicle);
     }
 
-    public void addCustomer(Customer customer) {
-        saveCustomer(customer);
+    public boolean addCustomer(Customer customer) {
+    	return saveCustomer(customer);
     }
 
     public void rentVehicle(Vehicle vehicle, Customer customer, LocalDate date, double amount) {
@@ -131,7 +131,18 @@ public class RentalSystem {
         return null;
     }
     
-    public void saveVehicle(Vehicle vehicle) {
+    public boolean saveVehicle(Vehicle vehicle) {
+    	//Reset existing data
+    	loadData();
+    	
+    	//Check for duplicate using license plate
+    	for(Vehicle v_: vehicles) {
+    		if (v_.getLicensePlate().equalsIgnoreCase(vehicle.getLicensePlate())) {
+    			System.out.println("Duplicate Vehicle!");
+    			return false;
+    		}
+    	}
+    	
     	try {
     		File vehicles = new File("./src/rentalProject/vehicles.txt");
             FileWriter vehicleWriter = new FileWriter(vehicles, true);
@@ -140,9 +151,21 @@ public class RentalSystem {
     	} catch (Exception e) {
     		System.out.println("Error writing to file!");
     	}
+    	return true;
     }
     
-    public void saveCustomer(Customer customer) {
+    public boolean saveCustomer(Customer customer) {
+    	//Reset existing data
+    	loadData();
+    	
+    	//Check for duplicate using Customer ID
+    	for(Customer c_: customers) {
+    		if (c_.getCustomerName().equals(customer.getCustomerName())) {
+    			System.out.println("Duplicate Customer!");
+    			return false;
+    		}
+    	}
+    	
     	try {
     		File customers = new File("./src/rentalProject/customers.txt");
             FileWriter customerWriter = new FileWriter(customers, true);
@@ -151,6 +174,8 @@ public class RentalSystem {
     	} catch (Exception e) {
     		System.out.println("Error writing to file!");
     	}
+    	
+    	return true;
     }
     
     public void saveRecord(RentalRecord rentalRecord) {
@@ -165,6 +190,12 @@ public class RentalSystem {
     }
     
     public void loadData() {
+    	//Reset data storage
+    	vehicles = new ArrayList<Vehicle>();
+    	customers = new ArrayList<Customer>();
+    	rentalHistory = new RentalHistory();
+    	
+    	
     	try {
         	//Load vehicles
         	data = new File("./src/rentalProject/vehicles.txt");

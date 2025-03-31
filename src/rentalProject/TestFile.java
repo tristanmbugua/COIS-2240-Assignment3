@@ -12,21 +12,25 @@ public class TestFile {
 		RentalSystem.getInstance().saveCustomer(c);
 		
 		v = new Car("Tristan", "Tristan", 1, 1);
+		v.setLicensePlate("Tristan");
 		r = new RentalRecord(v, c, LocalDate.now(), 1, "Tristan");
 		RentalSystem.getInstance().saveVehicle(v);
 		RentalSystem.getInstance().saveRecord(r);
 		
 		v = new Motorcycle("Tristan", "Tristan", 1, false);
+		v.setLicensePlate("Tristan");
 		r = new RentalRecord(v, c, LocalDate.now(), 1, "Tristan");
 		RentalSystem.getInstance().saveVehicle(v);
 		RentalSystem.getInstance().saveRecord(r);
 		
 		v = new SportCar("Tristan", "Tristan", 1, 1, 1, false);
+		v.setLicensePlate("Tristan");
 		r = new RentalRecord(v, c, LocalDate.now(), 1, "Tristan");
 		RentalSystem.getInstance().saveVehicle(v);
 		RentalSystem.getInstance().saveRecord(r);
 		
 		v = new Truck("Tristan", "Tristan", 1, 1);
+		v.setLicensePlate("Tristan");
 		r = new RentalRecord(v, c, LocalDate.now(), 1, "Tristan");
 		RentalSystem.getInstance().saveVehicle(v);
 		RentalSystem.getInstance().saveRecord(r);
