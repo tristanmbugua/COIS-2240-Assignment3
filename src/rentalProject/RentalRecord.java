@@ -35,14 +35,5 @@ public class RentalRecord {
                " | Amount: $" + totalAmount;
     }
     
-    public void saveCustomer(Customer customer) {
-    	try {
-    		File customers = new File("./customers.txt");
-            FileWriter customerWriter = new FileWriter(customers, true);
-            customerWriter.append(customer.toString());
-            customerWriter.close();
-    	} catch (Exception e) {
-    		System.out.println("Error writing to file!");
-    	}
-    }
+    
 }
