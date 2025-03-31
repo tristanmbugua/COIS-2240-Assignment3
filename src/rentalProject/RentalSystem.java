@@ -1,6 +1,8 @@
 package rentalProject;
 
 import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -27,17 +29,17 @@ public class RentalSystem {
     private RentalHistory rentalHistory;
 
     public void addVehicle(Vehicle vehicle) {
-        vehicles.add(vehicle);
+        saveVehicle(vehicle);
     }
 
     public void addCustomer(Customer customer) {
-        customers.add(customer);
+        saveCustomer(customer);
     }
 
     public void rentVehicle(Vehicle vehicle, Customer customer, LocalDate date, double amount) {
         if (vehicle.getStatus() == Vehicle.VehicleStatus.AVAILABLE) {
             vehicle.setStatus(Vehicle.VehicleStatus.RENTED);
-            rentalHistory.addRecord(new RentalRecord(vehicle, customer, date, amount, "RENT"));
+            saveRecord(new RentalRecord(vehicle, customer, date, amount, "RENT"));
             System.out.println("Vehicle rented to " + customer.getCustomerName());
         }
         else {
@@ -48,7 +50,7 @@ public class RentalSystem {
     public void returnVehicle(Vehicle vehicle, Customer customer, LocalDate date, double extraFees) {
         if (vehicle.getStatus() == Vehicle.VehicleStatus.RENTED) {
             vehicle.setStatus(Vehicle.VehicleStatus.AVAILABLE);
-            rentalHistory.addRecord(new RentalRecord(vehicle, customer, date, extraFees, "RETURN"));
+            saveRecord(new RentalRecord(vehicle, customer, date, extraFees, "RETURN"));
             System.out.println("Vehicle returned by " + customer.getCustomerName());
         }
         else {
@@ -95,4 +97,38 @@ public class RentalSystem {
                 return c;
         return null;
     }
+    
+    public void saveVehicle(Vehicle vehicle) {
+    	try {
+    		File vehicles = new File("./vehicles.txt");
+            FileWriter vehicleWriter = new FileWriter(vehicles, true);
+            vehicleWriter.append(vehicle.getInfo());
+            vehicleWriter.close();
+    	} catch (Exception e) {
+    		System.out.println("Error writing to file!");
+    	}
+    }
+    
+    public void saveCustomer(Customer customer) {
+    	try {
+    		File customers = new File("./customers.txt");
+            FileWriter customerWriter = new FileWriter(customers, true);
+            customerWriter.append(customer.toString());
+            customerWriter.close();
+    	} catch (Exception e) {
+    		System.out.println("Error writing to file!");
+    	}
+    }
+    
+    public void saveRecord(RentalRecord rentalRecord) {
+    	try {
+    		File rentalRecords = new File("./rental_records.txt");
+            FileWriter rentalRecordWriter = new FileWriter(rentalRecords, true);
+            rentalRecordWriter.append(rentalRecord.toString());
+            rentalRecordWriter.close();
+    	} catch (Exception e) {
+    		System.out.println("Error writing to file!");
+    	}
+    }
+    
 }

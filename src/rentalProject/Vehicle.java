@@ -1,12 +1,13 @@
 package rentalProject;
 
-public abstract class Vehicle {
+import java.io.*;
+
+public abstract class Vehicle{
     private String licensePlate;
     private String make;
     private String model;
     private int year;
-    private VehicleStatus status;
-
+    private VehicleStatus status; 
     public enum VehicleStatus { AVAILABLE, RESERVED, RENTED, MAINTENANCE, OUTOFSERVICE }
 
     public Vehicle(String make, String model, int year) {

@@ -1,5 +1,8 @@
 package rentalProject;
 
+import java.io.File;
+import java.io.FileWriter;
+
 public class Customer {
     private int customerId;
     private String name;

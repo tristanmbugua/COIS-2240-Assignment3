@@ -1,5 +1,7 @@
 package rentalProject;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDate;
 
 public class RentalRecord {
@@ -31,5 +33,16 @@ public class RentalRecord {
                " | Customer: " + customer.getCustomerName() + 
                " | Date: " + recordDate + 
                " | Amount: $" + totalAmount;
+    }
+    
+    public void saveCustomer(Customer customer) {
+    	try {
+    		File customers = new File("./customers.txt");
+            FileWriter customerWriter = new FileWriter(customers, true);
+            customerWriter.append(customer.toString());
+            customerWriter.close();
+    	} catch (Exception e) {
+    		System.out.println("Error writing to file!");
+    	}
     }
 }
