@@ -1,7 +1,6 @@
 package rentalProject;
 
 import java.io.*;
-import java.util.*;
 
 public abstract class Vehicle{
     private String licensePlate;
@@ -31,14 +30,8 @@ public abstract class Vehicle{
         this(null, null, 0);
     }
 
-    public boolean setLicensePlate(String plate) {
-    	if (isValidPlate(plate)) {
-    		plate = plate.toUpperCase();
-    		this.licensePlate = plate;
-        	return true;
-        }
-        	
-        throw new IllegalArgumentException("Illegal Plate Entered!");
+    public void setLicensePlate(String plate) {
+        this.licensePlate = plate == null ? null : plate.toUpperCase();
     }
 
     public void setStatus(VehicleStatus status) {
@@ -61,38 +54,5 @@ public abstract class Vehicle{
 
     private String capitalize(String input) {
     	return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
-    }
-    
-    private boolean isValidPlate(String plate) {
-    	try {
-    		if (plate.equals("") || plate == null) {
-        		return false;
-        	}
-    	} catch (NullPointerException e) {
-    		return false;
-    	}
-    	
-    	
-    	int letterCount = 0;
-    	int numCount = 0;
-    	
-    	for (char c: plate.toCharArray()) {
-    		//Check character
-    		if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) {
-    			letterCount++;
-    		}
-    		//Check for number
-    		if ((c >= 48 && c <= 57)) {
-    			numCount++;
-    		}
-    	}
-    	
-    	
-    	if (letterCount != 3 || numCount != 3) {
-    		System.out.println("Invalid plate!");
-    		return false;
-    	}
-    	
-    	return true;
     }
 }

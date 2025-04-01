@@ -12,13 +12,14 @@ public class VehicleRentalApp {
         	System.out.println("\n1: Add Vehicle\n2: Add Customer\n3: Rent Vehicle\n4: Return Vehicle\n5: Display Available Vehicles\n6: Show Rental History\n7: Exit");
             int choice = scanner.nextInt();
             scanner.nextLine();
-
+            
+            
             switch (choice) {
                 case 1:
                     System.out.println("  1: Car\n  2: Motorcycle\n  3: Truck");
                     int type = scanner.nextInt();
                     scanner.nextLine();
-
+                    
                     System.out.print("Enter license plate: ");
                     String plate = scanner.nextLine();
                     System.out.print("Enter make: ");
@@ -47,13 +48,18 @@ public class VehicleRentalApp {
 		            }
                     
                     if (vehicle != null){
-	                    vehicle.setLicensePlate(plate);
+                    	try {
+                    		vehicle.setLicensePlate(plate);
+                    	} catch (Exception e) {
+                        	System.out.println("Invalid license plate!");
+                        }
 	                    rentalSystem.addVehicle(vehicle);
 	                    System.out.println("Vehicle added.");
                     }
                     else {
 	                    System.out.println("Vehicle not added.");
                     }
+                    
                     break;
 
                 case 2:
@@ -131,7 +137,7 @@ public class VehicleRentalApp {
                     rentalSystem.displayRentalHistory();
                     break;
                     
-                case 0:
+                case 7:
                 	scanner.close();
                     System.exit(0);
             }
