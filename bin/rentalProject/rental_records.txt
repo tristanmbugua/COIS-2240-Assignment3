@@ -1,0 +1,4 @@
+RENT | Plate: null | Customer: Tristan | Date: 2025-04-01 | Amount: $1.0
+RETURN | Plate: null | Customer: Tristan | Date: 2025-04-01 | Amount: $1.0
+RENT | Plate: null | Customer: Tristan | Date: 2025-04-01 | Amount: $1.0
+RETURN | Plate: null | Customer: Tristan | Date: 2025-04-01 | Amount: $1.0

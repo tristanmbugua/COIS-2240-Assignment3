@@ -41,36 +41,47 @@ class VehicleRentalTest {
 	}
 
 	@Test
-		void testRentAndReturnVehicle() {
-			//Instantiate Objects
-			Vehicle v = new Car("Tristan", "Tristan", 1, 1);
-			Customer c = new Customer(1, "Tristan");
+	void testRentAndReturnVehicle() {
+		//Instantiate Objects
+		Vehicle v = new Car("Tristan", "Tristan", 1, 1);
+		Customer c = new Customer(1, "Tristan");
+		
+		//Verify the vehicle is available
+		Assertions.assertTrue(v.getStatus().equals(Vehicle.VehicleStatus.AVAILABLE));
+		
+		//Retrieve RentalSystem instance
+		RentalSystem r = RentalSystem.getInstance();
+		
+		//rentVehicle() method
+			//Rent Vehicle, verify success
+			Assertions.assertTrue(r.rentVehicle(v, c, LocalDate.now(), 1));
+			
+			//Verify the vehicle is rented
+			Assertions.assertTrue(v.getStatus().equals(Vehicle.VehicleStatus.RENTED));
+			
+			//Rent Vehicle, verify failure
+			Assertions.assertFalse(r.rentVehicle(v, c, LocalDate.now(), 1));
+		
+		//returnVehicle() method		
+			//Return Vehicle, verify success
+			Assertions.assertTrue(r.returnVehicle(v, c, LocalDate.now(), 1));
 			
 			//Verify the vehicle is available
 			Assertions.assertTrue(v.getStatus().equals(Vehicle.VehicleStatus.AVAILABLE));
 			
-			//Retrieve RentalSystem instance
-			RentalSystem r = RentalSystem.getInstance();
-			
-			//rentVehicle() method
-				//Rent Vehicle, verify success
-				Assertions.assertTrue(r.rentVehicle(v, c, LocalDate.now(), 1));
+			//Return Vehicle, verify failure
+			Assertions.assertFalse(r.returnVehicle(v, c, LocalDate.now(), 1));
+	}	
+	
+	@Test
+	void testSingletonRentalSystem() throws Exception {
+		Constructor<RentalSystem> constructor = RentalSystem.class.getDeclaredConstructor();
 				
-				//Verify the vehicle is rented
-				Assertions.assertTrue(v.getStatus().equals(Vehicle.VehicleStatus.RENTED));
-				
-				//Rent Vehicle, verify failure
-				Assertions.assertFalse(r.rentVehicle(v, c, LocalDate.now(), 1));
-			
-			//returnVehicle() method		
-				//Return Vehicle, verify success
-				Assertions.assertTrue(r.returnVehicle(v, c, LocalDate.now(), 1));
-				
-				//Verify the vehicle is available
-				Assertions.assertTrue(v.getStatus().equals(Vehicle.VehicleStatus.AVAILABLE));
-				
-				//Return Vehicle, verify failure
-				Assertions.assertFalse(r.returnVehicle(v, c, LocalDate.now(), 1));
-		}
+		//Verify the constructor is private
+		Assertions.assertTrue(constructor.getModifiers() == Modifier.PRIVATE);
+		
+		//Assert singleton instance is not null
+		Assertions.assertNotNull(RentalSystem.getInstance());
+	}
 
 }
